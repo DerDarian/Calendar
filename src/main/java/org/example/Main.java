@@ -1,5 +1,8 @@
 package org.example;
 
+import java.util.HashMap;
+import java.util.Map;
+
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
@@ -42,54 +45,49 @@ public class Main {
 
 
     public static void main(String[] args) {
+        
+        enum MONTHS{
+            JANUARY("Januar", 31),
+            FEBRUARY("Februar", 28),
+            MARCH("März", 31),
+            APRIL("April", 30),
+            MAY("Mai", 31),
+            JUNE("Juni", 30),
+            JULY("Juli", 31),
+            AUGUST("August", 31),
+            SEPTEMBER("September", 30),
+            OCTOBER("Oktober", 31),
+            NOVEMBER("November", 30),
+            DECEMBER("Dezember", 31);
+            
+            final String name;
+            final int numberDays;
+            
+            MONTHS(String name, int numberDays){
+                this.name = name;
+                this.numberDays = numberDays;
+            }
+            
+            public String getName(){
+                return name;
+            }
 
-        String[] januar = buildMonth(0, 31);
-        int indexDay = januar.length % 7;
+            public int getNumberDays() {
+                return numberDays;
+            }
+        }
+        
+        Map<MONTHS, String[]> monthsMetaData = new HashMap<>();
 
-        String[] februar = buildMonth(indexDay, 28);
-        indexDay = februar.length % 7 ;
+        int indexDay = 0;
+        for(MONTHS month : MONTHS.values()){
+            monthsMetaData.put(month, buildMonth(indexDay, month.getNumberDays()));
+            indexDay = monthsMetaData.get(month).length % 7;
+        }
 
-        String[] maerz = buildMonth(indexDay, 31);
-        indexDay = maerz.length  % 7;
-
-        String[] april = buildMonth(indexDay, 30);
-        indexDay = april.length % 7;
-
-        String[] mai = buildMonth(indexDay, 31);
-        indexDay = mai.length % 7;
-
-        String[] juni = buildMonth(indexDay, 30);
-        indexDay = juni.length % 7 ;
-
-        String[] juli = buildMonth(indexDay, 31);
-        indexDay = juli.length  % 7;
-
-        String[] august = buildMonth(indexDay, 31);
-        indexDay = august.length % 7;
-
-        String[] september = buildMonth(indexDay, 30);
-        indexDay = september.length % 7;
-
-        String[] oktober = buildMonth(indexDay, 31);
-        indexDay = oktober.length % 7 ;
-
-        String[] november = buildMonth(indexDay, 30);
-        indexDay = november.length  % 7;
-
-        String[] dezember = buildMonth(indexDay, 31);
-
-
-        printMonth(januar, "Januar");
-        printMonth(februar, "Februar");
-        printMonth(maerz, "März");
-        printMonth(april, "April");
-        printMonth(mai, "Mai");
-        printMonth(juni, "Juni");
-        printMonth(juli, "Juli");
-        printMonth(august, "August");
-        printMonth(september, "September");
-        printMonth(oktober, "Oktober");
-        printMonth(november, "November");
-        printMonth(dezember, "Dezember");
+        for(MONTHS month : MONTHS.values()){
+            printMonth(monthsMetaData.get(month), month.getName());
+        }
+        
     }
 }
