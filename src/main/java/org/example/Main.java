@@ -1,7 +1,9 @@
 package org.example;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.*;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -44,7 +46,7 @@ public class Main {
 
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         
         enum MONTHS{
             JANUARY("Januar", 31),
@@ -76,10 +78,29 @@ public class Main {
                 return numberDays;
             }
         }
+
+        BufferedReader r = new BufferedReader(
+                new InputStreamReader(System.in));
+
+        String s = r.readLine();
+
+        System.out.println("Enter the desired year:");
+
+        if(s.length() != 4 || !s.matches("^[0-9]+$"))
+            throw new IllegalArgumentException("Date has to be 4 numeric digits long");
+
+        int year = Integer.parseInt(s);
+
+        Calendar calendar =  new GregorianCalendar(year, Calendar.JANUARY, 1);
+        int indexDay = calendar.get(Calendar.DAY_OF_WEEK);
+
+        if(indexDay == Calendar.SUNDAY)
+            indexDay = 6;
+        else
+            indexDay = indexDay - 2;
         
         Map<MONTHS, String[]> monthsMetaData = new HashMap<>();
 
-        int indexDay = 0;
         for(MONTHS month : MONTHS.values()){
             monthsMetaData.put(month, buildMonth(indexDay, month.getNumberDays()));
             indexDay = monthsMetaData.get(month).length % 7;
