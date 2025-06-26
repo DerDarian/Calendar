@@ -76,13 +76,12 @@ public class Main {
                 return numberDays;
             }
         }
+        System.out.println("Enter the desired year:");
 
         BufferedReader r = new BufferedReader(
                 new InputStreamReader(System.in));
 
         String s = r.readLine();
-
-        System.out.println("Enter the desired year:");
 
         if(s.length() != 4 || !s.matches("^[0-9]+$"))
             throw new IllegalArgumentException("Date has to be 4 numeric digits long");
